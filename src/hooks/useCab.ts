@@ -1,8 +1,8 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useAsync } from "react-use";
 
-import { EmbeddedApp } from "../compass-app-bridge";
-import type { EmbeddedAppConfig } from "../compass-app-bridge/EmbeddedApp/EmbeddedApp";
+import { EmbeddedApp } from "@/../vendor/compass-app-bridge";
+import type { EmbeddedAppConfig } from "@/../vendor/compass-app-bridge/EmbeddedApp/EmbeddedApp";
 
 type TokenHandlerFn = (token: any) => void;
 
