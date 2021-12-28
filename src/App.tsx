@@ -1,18 +1,16 @@
-import useCAB from "./hooks/useCAB";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import useCab from "./hooks/useCab";
+import DigitalAds from "./pages/DigitalAds";
+import DABridgeInfo from "./pages/DigitalAds/DABridgeInfo";
 
-const origins = {
-  beta: "https://app.dev.glide.com",
-  dev: "http://webapp.localhost",
-};
-const serviceId = "digital-ads";
 export default function App() {
-  const bridge = useCAB(
-    {
-      origin: origins.dev,
-      serviceId,
-      autoResize: false,
-    },
-    (token) => console.log
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<DigitalAds />}>
+          <Route path="info" element={<DABridgeInfo />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-  return <h1>App!!</h1>;
 }
