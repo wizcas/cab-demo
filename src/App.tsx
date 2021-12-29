@@ -1,13 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DigitalAds from "@/pages/DigitalAds";
-import DABridgeInfo from "@/pages/DigitalAds/DABridgeInfo";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import DigitalAds from '@/pages/DigitalAds';
+import DaBridgeInfo from '@/pages/DigitalAds/DaBridgeInfo';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DigitalAds />}>
-          <Route path="info" element={<DABridgeInfo />} />
+          <Route index element={<DaBridgeInfo />} />
         </Route>
       </Routes>
     </BrowserRouter>
