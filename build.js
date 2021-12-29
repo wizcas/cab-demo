@@ -21,7 +21,6 @@ const buildOptions = {
   platform: "browser",
   outdir: dir,
   sourcemap: !isProd,
-  // external: ["vendor/*"],
   plugins: [
     babel({
       config: {
@@ -42,6 +41,12 @@ const buildOptions = {
             "@babel/plugin-transform-runtime",
             {
               regenerator: true,
+            },
+          ],
+          [
+            "auto-import",
+            {
+              declarations: [{ default: "React", path: "react" }],
             },
           ],
         ],

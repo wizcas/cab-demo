@@ -30,7 +30,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.16.4.tgz#081d6bbc336ec5c2435c6346b2ae1fb98b5ac68e"
   integrity sha512-1o/jo7D+kC9ZjHX5v+EHrdjl3PhxMrLSOTGsOdHJ+KL8HCaEK6ehrVL2RS6oHDZp+L7xLirLrPmQtEng769J/Q==
 
-"@babel/core@^7.16.5":
+"@babel/core@^7.11.1", "@babel/core@^7.16.5":
   version "7.16.5"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.5.tgz#924aa9e1ae56e1e55f7184c8bf073a50d8677f5c"
   integrity sha512-wUcenlLzuWMZ9Zt8S0KmFwGlH6QKRh3vsm/dhDA3CHkiTA45YuG1XkHRcNRl73EFPXDp/d5kVOU0/y7x2w6OaQ==
@@ -1113,6 +1113,14 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+babel-plugin-auto-import@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-auto-import/-/babel-plugin-auto-import-1.1.0.tgz#996a78ded5fed475657bed17f2a223bafdd87822"
+  integrity sha512-mHtA3i1BYyWLHKc4v+NLS07VSlXGLcKIGcUmV2Xrasbox0bRV/xhe5W36Ki21GJfOZHG/eeAiwxe4tbBNbDXlA==
+  dependencies:
+    "@babel/core" "^7.11.1"
+    logical-not "^1.0.1"
+
 babel-plugin-dynamic-import-node@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.3.tgz#84fda19c976ec5c6defef57f9427b3def66e17a3"
@@ -1686,6 +1694,11 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
+logical-not@^1.0.1:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/logical-not/-/logical-not-1.0.9.tgz#1bd0365ff6b4a42d3a2c50f4699ca31c513e299b"
+  integrity sha512-RMNo9GZNS+1UXgwwwfPzuN5e5vlwbw+U0nti0qn5CrwnpcgBjl/4leZAbHjvThe31WF/aOb+fV6dLR6VjQfAvw==
 
 loose-envify@^1.1.0:
   version "1.4.0"
