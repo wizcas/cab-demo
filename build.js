@@ -9,6 +9,7 @@ console.log("is production?", isProd);
 fs.rmdirSync("./dist", { recursive: true });
 fs.mkdirSync("./dist");
 fs.copySync("./public", "./dist", { recursive: true });
+fs.copySync("./vendor", "./dist/vendor", { recursive: true });
 
 const dir = "./dist";
 const buildOptions = {
@@ -20,6 +21,7 @@ const buildOptions = {
   platform: "browser",
   outdir: dir,
   sourcemap: !isProd,
+  // external: ["vendor/*"],
   plugins: [
     babel({
       config: {
@@ -30,7 +32,7 @@ const buildOptions = {
             "@babel/preset-env",
             {
               loose: true,
-              modules: false,
+              modules: "umd",
             },
           ],
           "@babel/preset-react",
