@@ -1,8 +1,8 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useAsync } from "react-use";
 
-import { EmbeddedApp } from "@/../vendor/compass-app-bridge";
-import type { EmbeddedAppConfig } from "@/../vendor/compass-app-bridge/EmbeddedApp/EmbeddedApp";
+import { EmbeddedApp } from "vendor/compass-app-bridge";
+import type { EmbeddedAppConfig } from "vendor/compass-app-bridge/EmbeddedApp/EmbeddedApp";
 
 type TokenHandlerFn = (token: any) => void;
 
@@ -15,7 +15,6 @@ export default function useCab(config: EmbeddedAppConfig, onReceiveToken: TokenH
     if (bridgeRef.current) return bridgeRef.current;
     try {
       console.group("embedded app initialization", new Date().toLocaleTimeString());
-
       const bridge = EmbeddedApp.create(config);
       await bridge.isReady();
       console.log("embedded bridge is ready", bridge);

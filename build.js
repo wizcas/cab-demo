@@ -1,5 +1,6 @@
 import esbuild from "esbuild";
 import esbuildServe from "esbuild-serve";
+import babel from "esbuild-plugin-babel";
 import fs from "fs-extra";
 
 const isProd = process.env.NODE_ENV === "production";
@@ -12,14 +13,30 @@ fs.copySync("./public", "./dist", { recursive: true });
 const dir = "./dist";
 const buildOptions = {
   entryPoints: ["./src/index.tsx"],
-  external: ["./vendor/*"],
   define: {
     "process.env.NODE_ENV": "'development'",
   },
   bundle: true,
   platform: "browser",
   outdir: dir,
-  sourcemap: true,
+  // sourcemap: !isProd,
+  plugins: [
+    babel({
+      config: {
+        sourceMaps: !isProd,
+        presets: ["@babel/preset-env", "@babel/preset-typescript", "@babel/preset-react"],
+        plugins: [
+          [
+            ["@babel/plugin-transform-modules-umd", {}],
+            "@babel/plugin-transform-runtime",
+            {
+              regenerator: true,
+            },
+          ],
+        ],
+      },
+    }),
+  ],
   minify: isProd,
 };
 
