@@ -19,15 +19,24 @@ const buildOptions = {
   bundle: true,
   platform: "browser",
   outdir: dir,
-  // sourcemap: !isProd,
+  sourcemap: !isProd,
   plugins: [
     babel({
       config: {
         sourceMaps: !isProd,
-        presets: ["@babel/preset-env", "@babel/preset-typescript", "@babel/preset-react"],
+        presets: [
+          "@babel/preset-typescript",
+          [
+            "@babel/preset-env",
+            {
+              loose: true,
+              modules: false,
+            },
+          ],
+          "@babel/preset-react",
+        ],
         plugins: [
           [
-            ["@babel/plugin-transform-modules-umd", {}],
             "@babel/plugin-transform-runtime",
             {
               regenerator: true,
