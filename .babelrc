@@ -1,0 +1,21 @@
+{
+  "presets": [
+    // "@babel/preset-typescript",
+    [
+      "@babel/preset-env"
+      // {
+      //   "loose": true,
+      //   "modules": "umd"
+      // }
+    ]
+    // "@babel/preset-react"
+  ],
+  "plugins": [
+    // [
+    //   "@babel/plugin-transform-runtime",
+    //   {
+    //     "regenerator": true
+    //   }
+    // ]
+  ]
+}
