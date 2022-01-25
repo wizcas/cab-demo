@@ -1,8 +1,9 @@
 import { CabContext, CabContextData, TokenMeta } from '@/contexts/CabContext';
 import useCab, { Token } from '@/hooks/useCab';
 import { useMemo, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Route } from 'react-router-dom';
 import Spinner from 'react-spinners/PacmanLoader';
+import DaBridgeInfo from './DaBridgeInfo';
 
 const origins = {
   beta: 'https://app.dev.glide.com',
@@ -20,6 +21,7 @@ export default function DigitalAds() {
       origin: origins.dev,
       serviceId,
       autoResize: false,
+      debug: true,
     },
     (token) => {
       setTokenMeta((prev) => ({
@@ -45,9 +47,11 @@ export default function DigitalAds() {
       <Spinner />
     </div>
   ) : (
-    <CabContext.Provider value={ctx}>
-      {error && <div>{error}</div>}
-      <Outlet />
-    </CabContext.Provider>
+    <>
+      <CabContext.Provider value={ctx}>
+        {error && <div>{error}</div>}
+        <Outlet />
+      </CabContext.Provider>
+    </>
   );
 }

@@ -9,5 +9,7 @@ module.exports = merge(common.config, {
       directory: common.d('./dist'),
     },
     port: 9527,
+    historyApiFallback: true,
+    hot: true,
   },
 });
