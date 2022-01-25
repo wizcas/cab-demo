@@ -46,7 +46,6 @@ export default function DigitalAds() {
     </div>
   ) : (
     <CabContext.Provider value={ctx}>
-      <div>Select the demo embedded app you want to load.</div>
       {error && <div>{error}</div>}
       <Outlet />
     </CabContext.Provider>
