@@ -1,15 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DigitalAds from "@/pages/DigitalAds";
-import DABridgeInfo from "@/pages/DigitalAds/DABridgeInfo";
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import DigitalAds from '@/pages/DigitalAds';
+import DaBridgeInfo from '@/pages/DigitalAds/DaBridgeInfo';
+import Home from './pages/Home';
+import DaTransactionWidget from './pages/DigitalAds/DaTransactionWidget';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<DigitalAds />}>
-          <Route path="info" element={<DABridgeInfo />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <main className="demo-root">
+      <Outlet />
+    </main>
   );
 }
