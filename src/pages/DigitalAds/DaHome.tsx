@@ -5,11 +5,10 @@ import { CabContext } from '@/contexts/CabContext';
 import InfoTable, { NaCell } from '@/components/InfoTable';
 
 export default function DaHome() {
-  const { bridge } = useContext(CabContext);
+  const { bridge, refresh } = useContext(CabContext);
+
   const [flags, setFlags] = useState({});
-
   const hasFlags = Object.keys(flags).length > 0;
-
   async function handleGetFlags() {
     const flags = await bridge?.dispatch({
       type: 'GET_RESOURCE',
@@ -28,18 +27,19 @@ export default function DaHome() {
   return (
     <div className="p-2">
       <CabTokenDisplay className="mb-4" />
-      <div>
-        <button onClick={handleGetFlags}>Get flags</button>
-        {hasFlags && (
-          <InfoTable
-            className="mt-2"
-            rows={Object.entries(flags).map(([key, value]) => ({
-              label: key,
-              value: `${value}` ?? <NaCell />,
-            }))}
-          />
-        )}
+      <div className="flex flex-row gap-2">
+        <button onClick={refresh}>Manual refresh token</button>
+        <button onClick={handleGetFlags}>Query Glide flags</button>
       </div>
+      {hasFlags && (
+        <InfoTable
+          className="mt-2"
+          rows={Object.entries(flags).map(([key, value]) => ({
+            label: key,
+            value: `${value}` ?? <NaCell />,
+          }))}
+        />
+      )}
     </div>
   );
 }

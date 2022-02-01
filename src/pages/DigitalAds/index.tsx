@@ -38,6 +38,15 @@ export default function DigitalAds() {
       bridge,
       token,
       tokenMeta,
+      refresh() {
+        bridge?.dispatch({
+          type: 'AUTHENTICATE',
+        });
+        setTokenMeta((prev) => ({
+          ...prev,
+          requestedAt: Date.now(),
+        }));
+      },
     }),
     [bridge, token, tokenMeta]
   );
