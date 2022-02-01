@@ -37,15 +37,14 @@ export default function CabTokenDisplay({ className }: Props) {
       className={className}
       rows={[
         {
+          key: 'token',
           label: 'Token',
           value: tokenValue ? (
             <>
               <span>{truncatedTokenValue}</span>
               <button
                 className="text-sm text-black px-1 py-0 ml-2"
-                onClick={() => {
-                  token?.value && copy(token?.value);
-                }}
+                onClick={handleCopy}
               >
                 {copied ? 'Copied!' : 'Copy'}
               </button>
@@ -55,14 +54,17 @@ export default function CabTokenDisplay({ className }: Props) {
           ),
         },
         {
+          key: 'exp',
           label: 'Expiring at',
           value: formatDateTime(token?.expireAt),
         },
         {
+          key: 'req',
           label: 'Requested at',
           value: formatDateTime(tokenMeta?.requestedAt),
         },
         {
+          key: 'refr',
           label: 'Refreshed at',
           value: formatDateTime(tokenMeta?.refreshedAt),
         },

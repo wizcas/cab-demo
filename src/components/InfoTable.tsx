@@ -18,13 +18,14 @@ export default function InfoTable({ rows, className }: Props) {
       )}
     >
       {rows?.map((row) => (
-        <InfoRow label={row.label} value={row.value} />
+        <InfoRow key={row.key} label={row.label} value={row.value} />
       ))}
     </div>
   );
 }
 
 export interface InfoRowData {
+  key: string;
   label: string;
   value: ReactNode;
 }

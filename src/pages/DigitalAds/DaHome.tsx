@@ -34,6 +34,7 @@ export default function DaHome() {
         <InfoTable
           className="mt-2"
           rows={Object.entries(flags).map(([key, value]) => ({
+            key,
             label: key,
             value: `${value}` ?? <NaCell />,
           }))}

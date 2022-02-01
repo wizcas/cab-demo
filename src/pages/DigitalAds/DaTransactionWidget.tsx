@@ -17,6 +17,7 @@ export default function DaTransactionWidget() {
     <InfoTable
       rows={[
         {
+          key: 'txnid',
           label: 'Txn ID',
           value: txnId || <NaCell />,
         },
