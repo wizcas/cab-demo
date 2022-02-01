@@ -1,4 +1,4 @@
-import InfoTable from '@/components/InfoTable';
+import InfoTable, { NaCell } from '@/components/InfoTable';
 import { CabContext } from '@/contexts/CabContext';
 import { useContext, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -15,10 +15,12 @@ export default function DaTransactionWidget() {
   }, [bridge]);
   return (
     <InfoTable
+      className="m-2"
       rows={[
         {
+          key: 'txnid',
           label: 'Txn ID',
-          value: txnId || <span className="text-red-300">N/A</span>,
+          value: txnId || <NaCell />,
         },
       ]}
     />

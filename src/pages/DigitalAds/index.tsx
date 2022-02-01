@@ -1,9 +1,9 @@
 import { CabContext, CabContextData, TokenMeta } from '@/contexts/CabContext';
 import useCab, { Token } from '@/hooks/useCab';
+import classNames from 'classnames';
 import { useMemo, useState } from 'react';
-import { Outlet, Route } from 'react-router-dom';
-import Spinner from 'react-spinners/PacmanLoader';
-import DaBridgeInfo from './DaBridgeInfo';
+import { Link, Outlet } from 'react-router-dom';
+import Spinner from 'react-spinners/ClockLoader';
 
 const origins = {
   beta: 'https://app.dev.glide.com',
@@ -39,19 +39,58 @@ export default function DigitalAds() {
       bridge,
       token,
       tokenMeta,
+      refresh() {
+        bridge?.dispatch({
+          type: 'AUTHENTICATE',
+        });
+        setTokenMeta((prev) => ({
+          ...prev,
+          requestedAt: Date.now(),
+        }));
+      },
     }),
     [bridge, token, tokenMeta]
   );
   return loading ? (
-    <div>
-      <Spinner />
+    <div className="flex flex-col items-center gap-2 p-4">
+      <div className="w-[64px] h-[64px]">
+        <Spinner />
+      </div>
+      <div className="text-sm text-gray-600">
+        Initializing the app bridge...
+      </div>
     </div>
   ) : (
-    <>
-      <CabContext.Provider value={ctx}>
-        {error && <div>{error}</div>}
-        <Outlet />
-      </CabContext.Provider>
-    </>
+    <CabContext.Provider value={ctx}>
+      <header
+        className={classNames(
+          'flex flex-row justify-between items-center p-2',
+          'text-sm text-gray-600',
+          'bg-gray-200 bg-opacity-40',
+          'border-b border-gray-300'
+        )}
+      >
+        <nav
+          className={classNames(
+            'flex flex-row items-center gap-2',
+            'font-semibold'
+          )}
+        >
+          <Link to="./">Home</Link>
+          <Link to="./navigation">Navigation</Link>
+          <Link to="./widget">Widget</Link>
+        </nav>
+        <div
+          className={classNames(
+            'text-xs',
+            bridge ? 'text-emerald-600' : 'text-rose-600'
+          )}
+        >
+          {bridge ? 'CAB ready' : 'CAB error'}
+        </div>
+      </header>
+      {error && <div>{error}</div>}
+      <Outlet />
+    </CabContext.Provider>
   );
 }

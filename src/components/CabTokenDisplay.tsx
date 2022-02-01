@@ -1,38 +1,72 @@
 import { CabContext } from '@/contexts/CabContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import InfoTable from './InfoTable';
+import InfoTable, { NaCell } from './InfoTable';
+import { useCopyToClipboard } from 'react-use';
 
 function formatDateTime(v: number | string | undefined) {
   if (!v) return 'N/A';
   return dayjs(v).format('YYYY-MM-DD HH:mm:ss');
 }
 
-export default function DaBridgeInfo() {
-  const ctx = useContext(CabContext);
+interface Props {
+  className?: string;
+}
+
+export default function CabTokenDisplay({ className }: Props) {
+  const { token, tokenMeta } = useContext(CabContext);
+  const [copied, setCopied] = useState(false);
+  const [_, copy] = useCopyToClipboard();
+  const tokenValue = token?.value;
+  const truncatedTokenValue =
+    tokenValue?.slice(0, 8) + ' ... ' + tokenValue?.slice(-8);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [tokenValue]);
+
+  function handleCopy() {
+    if (tokenValue) {
+      copy(tokenValue);
+      setCopied(true);
+    }
+  }
+
   return (
     <InfoTable
+      className={className}
       rows={[
         {
+          key: 'token',
           label: 'Token',
-          value: (
+          value: tokenValue ? (
             <>
-              <span>{ctx.token?.value}</span>
-              <button>copy</button>
+              <span>{truncatedTokenValue}</span>
+              <button
+                className="text-sm text-black px-1 py-0 ml-2"
+                onClick={handleCopy}
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
             </>
+          ) : (
+            <NaCell />
           ),
         },
         {
+          key: 'exp',
           label: 'Expiring at',
-          value: formatDateTime(ctx.token?.expireAt),
+          value: formatDateTime(token?.expireAt),
         },
         {
+          key: 'req',
           label: 'Requested at',
-          value: formatDateTime(ctx.tokenMeta?.requestedAt),
+          value: formatDateTime(tokenMeta?.requestedAt),
         },
         {
+          key: 'refr',
           label: 'Refreshed at',
-          value: formatDateTime(ctx.tokenMeta?.refreshedAt),
+          value: formatDateTime(tokenMeta?.refreshedAt),
         },
       ]}
     />

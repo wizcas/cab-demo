@@ -10,7 +10,9 @@ export interface CabContextData {
   bridge?: EmbeddedApp;
   token?: Token;
   tokenMeta: TokenMeta;
+  refresh(): void;
 }
 export const CabContext = createContext<CabContextData>({
   tokenMeta: { requestedAt: 0, refreshedAt: 0 },
+  refresh: () => {},
 });
