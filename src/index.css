@@ -2,9 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-.demo-root {
-  @apply relative;
-  & > * {
-    @apply max-w-full;
+@layer base {
+  .demo-root {
+    @apply relative;
+    & > * {
+      @apply max-w-full;
+    }
   }
+}
+
+@layer components {
+  button {
+    @apply p-2;
+    @apply rounded-md;
+    @apply bg-orange-300 active:bg-orange-200;
+    @apply border border-orange-600;
+    @apply transition-all duration-200 ease-out;
+    @apply hover:shadow-orange-400/30 hover:shadow-lg;
+    @apply active:shadow-orange-500/30 active:shadow-md;
+    &:focus,
+    &:focus-within {
+      @apply outline-none;
+      @apply ring-1 ring-orange-500;
+    }
+  }
+}
+
+@layer utilities {
 }

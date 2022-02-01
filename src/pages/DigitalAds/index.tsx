@@ -2,7 +2,7 @@ import { CabContext, CabContextData, TokenMeta } from '@/contexts/CabContext';
 import useCab, { Token } from '@/hooks/useCab';
 import { useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import Spinner from 'react-spinners/PacmanLoader';
+import Spinner from 'react-spinners/ClockLoader';
 
 const origins = {
   beta: 'https://app.dev.glide.com',
@@ -42,9 +42,11 @@ export default function DigitalAds() {
     [bridge, token, tokenMeta]
   );
   return loading ? (
-    <div className="mx-auto text-center">
-      <Spinner />
-      <div className="text-sm text-gray-700">
+    <div className="flex flex-col items-center gap-2 p-4">
+      <div className="w-[64px] h-[64px]">
+        <Spinner />
+      </div>
+      <div className="text-sm text-gray-600">
         Initializing the app bridge...
       </div>
     </div>
