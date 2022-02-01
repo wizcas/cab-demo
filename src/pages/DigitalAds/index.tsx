@@ -5,10 +5,6 @@ import { useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Spinner from 'react-spinners/ClockLoader';
 
-const origins = {
-  beta: 'https://app.dev.glide.com',
-  dev: 'http://webapp.localhost',
-};
 const serviceId = 'digital-ads';
 export default function DigitalAds() {
   const [tokenMeta, setTokenMeta] = useState<TokenMeta>({
@@ -18,7 +14,7 @@ export default function DigitalAds() {
   const [token, setToken] = useState<Token>();
   const { bridge, loading, error } = useCab(
     {
-      origin: origins.dev,
+      origin: document.referrer,
       serviceId,
       autoResize: false,
       debug: true,

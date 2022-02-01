@@ -40,7 +40,7 @@ export default function useCab(
       return bridge;
     } catch (e) {
       console.groupEnd();
-      console.error('embedded bridge cannot be ready', e);
+      console.error('failed to initialize the embedded app', e);
       throw e;
     }
   }
