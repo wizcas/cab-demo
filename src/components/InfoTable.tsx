@@ -3,16 +3,18 @@ import { ReactNode } from 'react';
 
 interface Props {
   rows?: InfoRowData[];
+  className?: string;
 }
 
-export default function InfoTable({ rows }: Props) {
+export default function InfoTable({ rows, className }: Props) {
   return (
     <div
       className={classNames(
         'grid grid-cols-[7em_1fr]',
-        'm-2 rounded-md border border-slate-900',
+        'rounded-md border border-slate-900',
         'shadow-md shadow-slate-800/30',
-        'bg-slate-600 text-slate-50'
+        'bg-slate-600 text-slate-50',
+        className
       )}
     >
       {rows?.map((row) => (
@@ -33,4 +35,8 @@ function InfoRow({ label, value }: InfoRowData) {
       <span className="font-mono p-2 break-all">{value}</span>
     </>
   );
+}
+
+export function NaCell() {
+  return <span className="text-red-300">N/A</span>;
 }

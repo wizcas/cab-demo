@@ -1,25 +1,58 @@
 import { CabContext } from '@/contexts/CabContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import InfoTable from './InfoTable';
+import InfoTable, { NaCell } from './InfoTable';
+import classNames from 'classnames';
+import { useCopyToClipboard } from 'react-use';
 
 function formatDateTime(v: number | string | undefined) {
   if (!v) return 'N/A';
   return dayjs(v).format('YYYY-MM-DD HH:mm:ss');
 }
 
-export default function CabTokenDisplay() {
+interface Props {
+  className?: string;
+}
+
+export default function CabTokenDisplay({ className }: Props) {
   const { token, tokenMeta } = useContext(CabContext);
+  const [copied, setCopied] = useState(false);
+  const [_, copy] = useCopyToClipboard();
+  const tokenValue = token?.value;
+  const truncatedTokenValue =
+    tokenValue?.slice(0, 8) + ' ... ' + tokenValue?.slice(-8);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [tokenValue]);
+
+  function handleCopy() {
+    if (tokenValue) {
+      copy(tokenValue);
+      setCopied(true);
+    }
+  }
+
   return (
     <InfoTable
+      className={className}
       rows={[
         {
           label: 'Token',
-          value: (
+          value: tokenValue ? (
             <>
-              <span>{token?.value}</span>
-              <button>copy</button>
+              <span>{truncatedTokenValue}</span>
+              <button
+                className="text-sm text-black px-1 py-0 ml-2"
+                onClick={() => {
+                  token?.value && copy(token?.value);
+                }}
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
             </>
+          ) : (
+            <NaCell />
           ),
         },
         {
