@@ -14,7 +14,6 @@ export default function DigitalAds() {
   const [token, setToken] = useState<Token>();
   const { bridge, loading, error } = useCab(
     {
-      origin: document.referrer,
       serviceId,
       autoResize: false,
       debug: true,
@@ -68,7 +67,7 @@ export default function DigitalAds() {
       >
         <nav
           className={classNames(
-            'flex flex-row items-center gap-2',
+            'flex flex-row items-center gap-4',
             'font-semibold'
           )}
         >

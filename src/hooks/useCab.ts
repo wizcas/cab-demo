@@ -3,6 +3,7 @@ import { useAsync } from 'react-use';
 
 import { EmbeddedApp } from 'vendor/compass-app-bridge';
 import type { EmbeddedAppConfig } from 'vendor/compass-app-bridge/EmbeddedApp/EmbeddedApp';
+import useParentOrigin from './useParentOrigin';
 
 export interface Token {
   value: string;
@@ -15,6 +16,8 @@ export default function useCab(
   config: EmbeddedAppConfig,
   onReceiveToken: TokenHandlerFn
 ) {
+  config.origin = useParentOrigin();
+
   const { value, loading, error } = useAsync<() => Promise<EmbeddedApp>>(
     initCAB,
     []
