@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Spinner from 'react-spinners/ClockLoader';
+import { FiGithub } from 'react-icons/fi';
 
 const serviceId = 'digital-ads';
 export default function DigitalAds() {
@@ -59,7 +60,7 @@ export default function DigitalAds() {
     <CabContext.Provider value={ctx}>
       <header
         className={classNames(
-          'flex flex-row justify-between items-center p-2',
+          'flex flex-row gap-4 items-center p-2',
           'text-sm text-gray-600',
           'bg-gray-200 bg-opacity-40',
           'border-b border-gray-300'
@@ -75,6 +76,7 @@ export default function DigitalAds() {
           <Link to="./navigation">Navigation</Link>
           <Link to="./widget">Widget</Link>
         </nav>
+        <div className="flex-1" />
         <div
           className={classNames(
             'text-xs',
@@ -83,6 +85,9 @@ export default function DigitalAds() {
         >
           {bridge ? 'CAB ready' : 'CAB error'}
         </div>
+        <a href="https://github.com/wizcas/cab-demo" target="_blank">
+          <FiGithub size={24} />
+        </a>
       </header>
       {error && <div>{error}</div>}
       <Outlet />
