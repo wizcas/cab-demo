@@ -8,8 +8,8 @@ function formatDateTime(v: number | string | undefined) {
   return dayjs(v).format('YYYY-MM-DD HH:mm:ss');
 }
 
-export default function DaBridgeInfo() {
-  const ctx = useContext(CabContext);
+export default function CabTokenDisplay() {
+  const { token, tokenMeta } = useContext(CabContext);
   return (
     <InfoTable
       rows={[
@@ -17,22 +17,22 @@ export default function DaBridgeInfo() {
           label: 'Token',
           value: (
             <>
-              <span>{ctx.token?.value}</span>
+              <span>{token?.value}</span>
               <button>copy</button>
             </>
           ),
         },
         {
           label: 'Expiring at',
-          value: formatDateTime(ctx.token?.expireAt),
+          value: formatDateTime(token?.expireAt),
         },
         {
           label: 'Requested at',
-          value: formatDateTime(ctx.tokenMeta?.requestedAt),
+          value: formatDateTime(tokenMeta?.requestedAt),
         },
         {
           label: 'Refreshed at',
-          value: formatDateTime(ctx.tokenMeta?.refreshedAt),
+          value: formatDateTime(tokenMeta?.refreshedAt),
         },
       ]}
     />
