@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import CabTokenDisplay from '@/components/CabTokenDisplay';
 import { useContext, useState } from 'react';
 import { CabContext } from '@/contexts/CabContext';
