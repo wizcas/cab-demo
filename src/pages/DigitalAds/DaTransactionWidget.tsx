@@ -15,6 +15,7 @@ export default function DaTransactionWidget() {
   }, [bridge]);
   return (
     <InfoTable
+      className="m-2"
       rows={[
         {
           key: 'txnid',

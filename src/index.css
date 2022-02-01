@@ -26,6 +26,11 @@
       @apply ring-1 ring-orange-500;
     }
   }
+
+  a {
+    @apply hover:text-orange-600 active:text-orange-800;
+    @apply font-semibold;
+  }
 }
 
 @layer utilities {
