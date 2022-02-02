@@ -43,6 +43,7 @@
     "react-icons": "^4.3.1",
     "react-router-dom": "6",
     "react-spinners": "^0.11.0",
+    "react-switch": "^6.0.0",
     "react-tooltip": "^4.2.21",
     "react-use": "^17.3.1"
   }

@@ -5,7 +5,10 @@ import { useCallback, useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Spinner from 'react-spinners/ClockLoader';
 import { FiFrown, FiGithub, FiSmile } from 'react-icons/fi';
+import { BiBugAlt } from 'react-icons/bi';
 import ReactTooltip from 'react-tooltip';
+import ReactSwitch from 'react-switch';
+import { useLocalStorage } from 'react-use';
 
 const serviceId = 'digital-ads';
 export default function DigitalAds() {
@@ -14,6 +17,8 @@ export default function DigitalAds() {
     refreshedAt: 0,
   });
   const [token, setToken] = useState<Token>();
+  const [debug = false, setDebug] = useLocalStorage('cab-demo-debug', false);
+
   const handleToken = useCallback((token: Token) => {
     setTokenMeta((prev) => ({
       ...prev,
@@ -25,7 +30,7 @@ export default function DigitalAds() {
     {
       serviceId,
       autoResize: false,
-      debug: false,
+      debug,
     },
     handleToken
   );
@@ -76,26 +81,21 @@ export default function DigitalAds() {
           <Link to="./widget">Widget</Link>
         </nav>
         <div className="flex-1" />
+        <div data-tip data-for="cab-debug" className="h-[24px]">
+          <ReactSwitch
+            checked={debug}
+            onChange={setDebug}
+            height={24}
+            checkedHandleIcon={<SwitchHandle />}
+            uncheckedHandleIcon={<SwitchHandle />}
+          />
+        </div>
         <div
           className={classNames(bridge ? 'text-emerald-600' : 'text-rose-600')}
         >
           <div data-tip data-for="cab-status">
             {bridge ? <FiSmile size={24} /> : <FiFrown size={24} />}
           </div>
-          <ReactTooltip
-            id="cab-status"
-            place="left"
-            type={bridge ? 'success' : 'error'}
-          >
-            {bridge ? (
-              <span>CAB is ready</span>
-            ) : (
-              <span>
-                CAB is not ready. <br />
-                Please check the console for details.
-              </span>
-            )}
-          </ReactTooltip>
         </div>
         <a href="https://github.com/wizcas/cab-demo" target="_blank">
           <FiGithub size={24} />
@@ -103,6 +103,31 @@ export default function DigitalAds() {
       </header>
       {error && <div>{error}</div>}
       <Outlet />
+      <ReactTooltip id="cab-debug" place="left">
+        Print CAB debug logs in the console.
+      </ReactTooltip>
+      <ReactTooltip
+        id="cab-status"
+        place="left"
+        type={bridge ? 'success' : 'error'}
+      >
+        {bridge ? (
+          <span>CAB is ready</span>
+        ) : (
+          <span>
+            CAB is not ready. <br />
+            Please check the console for details.
+          </span>
+        )}
+      </ReactTooltip>
     </CabContext.Provider>
+  );
+}
+
+function SwitchHandle() {
+  return (
+    <div className="h-full w-full flex flex-col justify-center items-center">
+      <BiBugAlt size={18} />
+    </div>
   );
 }
