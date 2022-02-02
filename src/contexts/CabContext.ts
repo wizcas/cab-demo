@@ -7,12 +7,13 @@ export interface TokenMeta {
   refreshedAt?: number;
 }
 export interface CabContextData {
-  bridge?: EmbeddedApp;
+  bridge: EmbeddedApp | null;
   token?: Token;
   tokenMeta: TokenMeta;
   refresh(): void;
 }
 export const CabContext = createContext<CabContextData>({
+  bridge: null,
   tokenMeta: { requestedAt: 0, refreshedAt: 0 },
   refresh: () => {},
 });

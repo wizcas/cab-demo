@@ -1,5 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
-import { useAsync } from 'react-use';
+import { useEffect, useCallback, useState } from 'react';
 
 import { EmbeddedApp } from 'vendor/compass-app-bridge';
 import type { EmbeddedAppConfig } from 'vendor/compass-app-bridge/EmbeddedApp/EmbeddedApp';
@@ -17,52 +16,71 @@ export default function useCab(
   onReceiveToken: TokenHandlerFn
 ) {
   config.origin = useParentOrigin();
-
-  const { value, loading, error } = useAsync<() => Promise<EmbeddedApp>>(
-    initCAB,
-    []
-  );
-  const bridgeRef = useRef<EmbeddedApp | undefined>(value);
-  bridgeRef.current = value;
-
-  async function initCAB(): Promise<EmbeddedApp> {
-    if (bridgeRef.current) return bridgeRef.current;
-    try {
-      console.group(
-        'embedded app initialization',
-        new Date().toLocaleTimeString()
-      );
-      const bridge = EmbeddedApp.create(config);
-      await bridge.isReady();
-      console.log('embedded bridge is ready', bridge);
-      bridge.subscribe('AUTHENTICATE', handleToken);
-      const token = await bridge.dispatch({ type: 'AUTHENTICATE' });
-      console.log({ token });
-      handleToken(token);
-      console.groupEnd();
-      return bridge;
-    } catch (e) {
-      console.groupEnd();
-      console.error('failed to initialize the embedded app', e);
-      throw e;
-    }
-  }
+  const [bridge, setBridge] = useState<EmbeddedApp | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>('');
 
   const handleToken = useCallback(
     (token: Token) => {
-      console.log('embedded app has received a token', token);
+      console.group('CAB token feed', new Date().toLocaleTimeString());
+      console.log('received token', token);
       onReceiveToken?.(token);
+      console.groupEnd();
     },
     [onReceiveToken]
   );
 
   useEffect(() => {
-    () => {
-      bridgeRef.current?.destroy();
+    function end() {
+      setLoading(false);
+    }
+    async function waitForBridge(newBridge: EmbeddedApp) {
+      try {
+        await newBridge.isReady();
+        console.log('embedded bridge is ready', newBridge);
+        setBridge(newBridge);
+        handleToken(await newBridge.dispatch({ type: 'AUTHENTICATE' }));
+        newBridge.subscribe('AUTHENTICATE', handleToken);
+      } catch (e) {
+        console.log('failed to ready the app bridge', e);
+        setError('CAB cannot be ready');
+      } finally {
+        end();
+      }
+    }
+    function initCAB(): EmbeddedApp | null {
+      setLoading(true);
+      try {
+        const newBridge = EmbeddedApp.create(config);
+        waitForBridge(newBridge);
+        return newBridge;
+      } catch (e) {
+        console.error('failed to create the embedded app', e);
+        setError('CAB create error');
+        return null;
+      } finally {
+        end();
+      }
+    }
+    console.group(
+      'initializing the embedded bridge...',
+      new Date().toLocaleTimeString()
+    );
+    const b = initCAB();
+    console.groupEnd();
+    return () => {
+      b?.destroy();
     };
-  }, []);
+  }, [
+    handleToken,
+    config.origin,
+    config.serviceId,
+    config.debug,
+    config.autoResize,
+  ]);
+
   return {
-    bridge: bridgeRef.current,
+    bridge,
     loading,
     error,
   };
