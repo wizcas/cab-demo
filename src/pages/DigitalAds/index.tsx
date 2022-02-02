@@ -1,10 +1,10 @@
 import { CabContext, CabContextData, TokenMeta } from '@/contexts/CabContext';
 import useCab, { Token } from '@/hooks/useCab';
 import classNames from 'classnames';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Spinner from 'react-spinners/ClockLoader';
-import { FiGithub } from 'react-icons/fi';
+import { FiFrown, FiGithub, FiSmile } from 'react-icons/fi';
 
 const serviceId = 'digital-ads';
 export default function DigitalAds() {
@@ -13,23 +13,21 @@ export default function DigitalAds() {
     refreshedAt: 0,
   });
   const [token, setToken] = useState<Token>();
+  const handleToken = useCallback((token: Token) => {
+    setTokenMeta((prev) => ({
+      ...prev,
+      refreshedAt: Date.now(),
+    }));
+    setToken(token);
+  }, []);
   const { bridge, loading, error } = useCab(
     {
       serviceId,
       autoResize: false,
-      debug: true,
+      debug: false,
     },
-    (token) => {
-      setTokenMeta((prev) => ({
-        ...prev,
-        refreshedAt: Date.now(),
-      }));
-      setToken(token);
-    }
+    handleToken
   );
-  if (error) {
-    console.error('Loading CAB error:', error.message);
-  }
   const ctx = useMemo<CabContextData>(
     () => ({
       bridge,
@@ -60,7 +58,7 @@ export default function DigitalAds() {
     <CabContext.Provider value={ctx}>
       <header
         className={classNames(
-          'flex flex-row gap-4 items-center p-2',
+          'flex flex-row gap-2 items-center p-2',
           'text-sm text-gray-600',
           'bg-gray-200 bg-opacity-40',
           'border-b border-gray-300'
@@ -78,12 +76,9 @@ export default function DigitalAds() {
         </nav>
         <div className="flex-1" />
         <div
-          className={classNames(
-            'text-xs',
-            bridge ? 'text-emerald-600' : 'text-rose-600'
-          )}
+          className={classNames(bridge ? 'text-emerald-600' : 'text-rose-600')}
         >
-          {bridge ? 'CAB ready' : 'CAB error'}
+          {bridge ? <FiSmile size={24} /> : <FiFrown size={24} />}
         </div>
         <a href="https://github.com/wizcas/cab-demo" target="_blank">
           <FiGithub size={24} />
