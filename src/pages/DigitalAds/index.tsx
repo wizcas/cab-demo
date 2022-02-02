@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Spinner from 'react-spinners/ClockLoader';
 import { FiFrown, FiGithub, FiSmile } from 'react-icons/fi';
+import ReactTooltip from 'react-tooltip';
 
 const serviceId = 'digital-ads';
 export default function DigitalAds() {
@@ -78,7 +79,23 @@ export default function DigitalAds() {
         <div
           className={classNames(bridge ? 'text-emerald-600' : 'text-rose-600')}
         >
-          {bridge ? <FiSmile size={24} /> : <FiFrown size={24} />}
+          <div data-tip data-for="cab-status">
+            {bridge ? <FiSmile size={24} /> : <FiFrown size={24} />}
+          </div>
+          <ReactTooltip
+            id="cab-status"
+            place="left"
+            type={bridge ? 'success' : 'error'}
+          >
+            {bridge ? (
+              <span>CAB is ready</span>
+            ) : (
+              <span>
+                CAB is not ready. <br />
+                Please check the console for details.
+              </span>
+            )}
+          </ReactTooltip>
         </div>
         <a href="https://github.com/wizcas/cab-demo" target="_blank">
           <FiGithub size={24} />
