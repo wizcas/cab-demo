@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import historyNotifier from './historyNotifier';
 import './index.css';
 import routes from './routes';
 

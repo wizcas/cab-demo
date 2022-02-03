@@ -1,7 +1,7 @@
 import { CabContext, CabContextData, TokenMeta } from '@/contexts/CabContext';
 import useCab, { Token } from '@/hooks/useCab';
 import classNames from 'classnames';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Spinner from 'react-spinners/ClockLoader';
 import { FiFrown, FiGithub, FiSmile } from 'react-icons/fi';
@@ -9,6 +9,7 @@ import { BiBugAlt } from 'react-icons/bi';
 import ReactTooltip from 'react-tooltip';
 import ReactSwitch from 'react-switch';
 import { useLocalStorage } from 'react-use';
+import historyNotifier from '@/historyNotifier';
 
 const serviceId = 'digital-ads';
 export default function DigitalAds() {

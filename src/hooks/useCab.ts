@@ -1,6 +1,12 @@
+import historyNotifier from '@/historyNotifier';
 import { useEffect, useCallback, useState } from 'react';
+import { resolvePath } from 'react-router-dom';
 
-import { EmbeddedApp } from 'vendor/compass-app-bridge';
+import {
+  createHistoryPushAction,
+  createHistoryReplaceAction,
+  EmbeddedApp,
+} from 'vendor/compass-app-bridge';
 import type { EmbeddedAppConfig } from 'vendor/compass-app-bridge/EmbeddedApp/EmbeddedApp';
 import useParentOrigin from './useParentOrigin';
 
@@ -78,6 +84,24 @@ export default function useCab(
     config.debug,
     config.autoResize,
   ]);
+
+  useEffect(() => {
+    const cancel = historyNotifier.listen(({ action, url }) => {
+      if (url === null || url === undefined) return;
+      const urlObject =
+        typeof url === 'string' ? new URL(window.location.origin + url) : url;
+      const payload = {
+        pathname: urlObject.pathname,
+        search: urlObject.search,
+      };
+      bridge?.dispatch(
+        action === 'push'
+          ? createHistoryPushAction(payload)
+          : createHistoryReplaceAction(payload)
+      );
+    });
+    return cancel;
+  }, [bridge]);
 
   return {
     bridge,
